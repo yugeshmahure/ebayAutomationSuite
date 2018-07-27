@@ -17,9 +17,7 @@ import Locators.ANObjectRepo;
 import utility.UtilityFunctions;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 
 public class pageFunctions extends ANObjectRepo
@@ -45,7 +43,7 @@ public static void initProp()
 *
 * */
 public void scrollDown(float perct) throws InterruptedException {
-    Thread.sleep(3000);
+    Thread.sleep(5000);
     TouchAction ta = new TouchAction(driver);
     Dimension dimensions = driver.manage().window().getSize();
     float screenWidth = dimensions.getWidth();
@@ -55,6 +53,24 @@ public void scrollDown(float perct) throws InterruptedException {
     float y1 = screenHeight - (screenHeight * perct);
     ta.press(PointOption.point((int)x,(int)y)).waitAction().moveTo(PointOption.point((int)x,(int)y1)).release().perform();
 }
+
+
+    /*This is method is used to swipe horizontally from right to left
+     * Parameter: perct : how much scroll you want to do
+     *
+     * */
+    public void swipeRight(float perct) throws InterruptedException {
+        Thread.sleep(5000);
+        TouchAction ta = new TouchAction(driver);
+        Dimension dimensions = driver.manage().window().getSize();
+        float screenWidth = dimensions.getWidth();
+        float screenHeight = dimensions.getHeight();
+        float x = screenWidth/1.2f;
+        float y = screenHeight/2;
+        float x1 = screenHeight - (screenWidth * perct);
+        ta.press(PointOption.point((int)x,(int)y)).waitAction().moveTo(PointOption.point((int)x1,(int)y)).release().perform();
+    }
+
 /*This method is used for login and it validates whether user has logged successfully or not*/
 public boolean login() throws InterruptedException {
     initProp();
@@ -86,8 +102,11 @@ public boolean searchItem() throws InterruptedException {
     driver.findElement(By.xpath(homeSearchBox)).sendKeys(testData.getProperty("searchItem"));
     logger.debug("Searching for item");
     Thread.sleep(4000);
-    List<WebElement> listOfElements = driver.findElements(By.xpath(searchList));
-    listOfElements.get(3).click();
+    String searchItem = testData.getProperty("searchItem");
+    String xpath = "//*[contains(@text,'"+searchItem+"')]";
+    List<WebElement> listOfElements = driver.findElements(By.xpath(xpath));
+
+    listOfElements.get(listOfElements.size()-1).click();
     //driver.findElement(By.xpath(firstSearchSuggItem)).click();
     String selectedItem = driver.findElement(By.xpath(fifthSearchResultItem)).getText();
     driver.findElement(By.xpath(fifthSearchResultItem)).click();
@@ -133,6 +152,17 @@ public boolean proceedToPay() throws InterruptedException
     logger.debug("Scrolling down....");
     scrollDown(0.80f);
     driver.findElement(By.xpath(proceedToPay)).click();
+    Thread.sleep(4000);
+    Set contextNames = driver.getContextHandles();
+    Iterator<String> itr=contextNames.iterator();
+    while(itr.hasNext()){
+        System.out.println(itr.next());
+        if(itr.next().equalsIgnoreCase("WEBVIEW"))
+        {
+            logger.debug("Switching to webview");
+            driver.context(itr.next());
+        }
+    }
     String paymentmode = driver.findElement(By.xpath(paymenentModeButton)).getText();
     if(paymentmode.contains("payment")) {
         logger.debug("Navigated to payment page successfully");
@@ -143,5 +173,4 @@ public boolean proceedToPay() throws InterruptedException
         return false;
     }
 }
-
 }

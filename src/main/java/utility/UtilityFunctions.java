@@ -21,7 +21,7 @@ Logger logger = Logger.getLogger("ebayLogger");
 public DesiredCapabilities setCapabilities()
 {
     logger.debug("Test SetUp is starting.....");
-    String path =  "./src/main/resources/setUpConfig.properties";   //"D:\\eBayAutomationSuite\\src\\main\\resources\\setUpConfig.properties";//D:\eBayAutomationSuite\src\
+    String path =  "./src/main/resources/setUpConfig.properties";
     prop = loadPropFile(path);
     DesiredCapabilities capabilities = new DesiredCapabilities();
 

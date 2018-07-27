@@ -53,7 +53,7 @@ public void scrollDown(float perct) throws InterruptedException {
     float x = screenWidth/2;
     float y = screenHeight/1.2f;
     float y1 = screenHeight - (screenHeight * perct);
-    ta.press(PointOption.point((int)x,(int)y)).moveTo(PointOption.point((int)x,(int)y1)).release().perform();
+    ta.press(PointOption.point((int)x,(int)y)).waitAction().moveTo(PointOption.point((int)x,(int)y1)).release().perform();
 }
 /*This method is used for login and it validates whether user has logged successfully or not*/
 public boolean login() throws InterruptedException {

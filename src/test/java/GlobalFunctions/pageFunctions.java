@@ -5,17 +5,17 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 //import io.appium.java_client.touch.offset.PointOption;
 import io.appium.java_client.touch.offset.PointOption;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import Locators.ANObjectRepo;
 import utility.UtilityFunctions;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
@@ -32,6 +32,12 @@ public pageFunctions (AndroidDriver driver,WebDriverWait wait)
     this.driver = driver;
     this.wait = wait;
 }
+
+public pageFunctions (AndroidDriver driver)
+{
+    this.driver = driver;
+}
+
 //Method to load properties file
 public static void initProp()
 {
@@ -153,8 +159,10 @@ public boolean proceedToPay() throws InterruptedException
     scrollDown(0.80f);
     driver.findElement(By.xpath(proceedToPay)).click();
     Thread.sleep(4000);
+
     Set contextNames = driver.getContextHandles();
     Iterator<String> itr=contextNames.iterator();
+
     while(itr.hasNext()){
         System.out.println(itr.next());
         if(itr.next().equalsIgnoreCase("WEBVIEW"))
@@ -172,5 +180,10 @@ public boolean proceedToPay() throws InterruptedException
         logger.debug("Navigation to payment page unsuccessfully");
         return false;
     }
+}
+
+public void getScreenshot() throws IOException {
+    File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+    FileUtils.copyFile(scrFile, new File("./src/Screenshot_"+String.valueOf(System.currentTimeMillis()) +".png"));
 }
 }

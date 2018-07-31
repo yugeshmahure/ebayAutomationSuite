@@ -1,9 +1,9 @@
-15:08:38,318 DEBUG Test SetUp is starting.....
-15:08:38,356 DEBUG All the required capabilities are set
-15:08:42,587 DEBUG Appium started on port 4723
-15:09:40,457 DEBUG Login successful
-15:09:48,736 DEBUG Searching for item
-15:09:57,798 DEBUG Clicked on item to navigate
-15:10:16,848 DEBUG No review page is available
-15:10:32,603 DEBUG Scrolling down....
-15:10:42,370 DEBUG Navigation to payment page unsuccessfully
+12:54:39,725 DEBUG Test SetUp is starting.....
+12:54:39,731 DEBUG All the required capabilities are set
+12:54:45,123 DEBUG Appium started on port 4723
+12:55:39,838 DEBUG Login successful
+12:55:48,629 DEBUG Searching for item
+12:55:57,872 DEBUG Clicked on item to navigate
+12:56:15,780 DEBUG No review page is available
+12:56:34,972 DEBUG Scrolling down....
+12:56:46,278 DEBUG Navigated to payment page successfully

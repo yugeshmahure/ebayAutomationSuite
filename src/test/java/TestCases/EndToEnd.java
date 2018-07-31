@@ -35,7 +35,7 @@ public void setUp()
     //Initializing android driver
     driver = new AndroidDriver(service, capabilities);
     driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-    wait = new WebDriverWait(driver,5);
+    wait = new WebDriverWait(driver,7);
     ScreenOrientation orientation = driver.getOrientation();
     if(orientation.equals(ScreenOrientation.LANDSCAPE))
         driver.rotate(ScreenOrientation.PORTRAIT);
@@ -43,8 +43,7 @@ public void setUp()
 }
 //Test Case to validate end to end flow of item checkout
 @Test
-public void TC_01() throws InterruptedException
-{
+public void TC_01() throws InterruptedException, IOException {
     pg1 =  new pageFunctions(driver,wait);
     Assert.assertEquals(pg1.login(),true);
     Assert.assertEquals(pg1.searchItem(),true);

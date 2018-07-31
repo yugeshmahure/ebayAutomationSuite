@@ -81,45 +81,44 @@ public void scrollDown(float perct) throws InterruptedException {
 public boolean login() throws InterruptedException {
     initProp();
     boolean flag = false;
-    driver.findElement(By.xpath(home)).click();
-    driver.findElement(By.xpath(signInMenu)).click();
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(username)));
-    driver.findElement(By.xpath(username)).sendKeys(testData.getProperty("username"));
-    driver.findElement(By.xpath(password)).sendKeys(testData.getProperty("password"));
+    driver.findElement(home).click();
+    driver.findElement(signInMenu).click();
+    wait.until(ExpectedConditions.visibilityOfElementLocated(username));
+    driver.findElement(username).sendKeys(testData.getProperty("username"));
+    driver.findElement(password).sendKeys(testData.getProperty("password"));
     try {
-    driver.findElement(By.xpath(signInButton)).click();
-    driver.findElement(By.xpath(NotNowButton)).click();
-    driver.findElement(By.xpath(home)).click();
-    String signInText = driver.findElement(By.xpath(signInMenu)).getText();
-
+    driver.findElement(signInButton).click();
+    driver.findElement(NotNowButton).click();
+    driver.findElement(home).click();
+    String signInText = driver.findElement(signInMenu).getText();
     }
     catch (Exception e){
         logger.debug("Login successful");
         flag = true;
     }
-    driver.findElement(By.xpath(home)).click();
+    driver.findElement(home).click();
     return flag;
 }
 /*This method is used to search for item mentioned in property file*/
 public boolean searchItem() throws InterruptedException {
     initProp();
-    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(globalSearchBox)));
-    driver.findElement(By.xpath(globalSearchBox)).click();
-    driver.findElement(By.xpath(homeSearchBox)).sendKeys(testData.getProperty("searchItem"));
+    wait.until(ExpectedConditions.elementToBeClickable(globalSearchBox));
+    driver.findElement(globalSearchBox).click();
+    driver.findElement(homeSearchBox).sendKeys(testData.getProperty("searchItem"));
     logger.debug("Searching for item");
     Thread.sleep(4000);
     String searchItem = testData.getProperty("searchItem");
-    String xpath = "//*[contains(@text,'"+searchItem+"')]";
-    List<WebElement> listOfElements = driver.findElements(By.xpath(xpath));
-
+    //String xpath = "//*[contains(@text,'"+searchItem+"')]";
+    //setXpath(searchItem);
+    List<WebElement> listOfElements = driver.findElements(setXpath(searchItem));
     listOfElements.get(listOfElements.size()-1).click();
     //driver.findElement(By.xpath(firstSearchSuggItem)).click();
-    String selectedItem = driver.findElement(By.xpath(fifthSearchResultItem)).getText();
-    driver.findElement(By.xpath(fifthSearchResultItem)).click();
+    String selectedItem = driver.findElement(fifthSearchResultItem).getText();
+    driver.findElement(fifthSearchResultItem).click();
     logger.debug("Clicked on item to navigate");
-    driver.findElement(By.xpath(buyitnowButton)).click();
+    driver.findElement(buyitnowButton).click();
     try {
-        String itemDescPage = driver.findElement(By.xpath(descPageItemTitle)).getText();
+        String itemDescPage = driver.findElement(descPageItemTitle).getText();
 
         if (itemDescPage.contains(testData.getProperty("searchItem"))) {
             logger.debug("item is searched");
@@ -132,20 +131,22 @@ public boolean searchItem() throws InterruptedException {
     catch (Exception e)
     {
         logger.debug("No review page is available");
-        if(driver.findElement(By.xpath(orderSummary)).getText().contains("Order"))
+        if(driver.findElement(orderSummary).getText().contains("Order"))
             return true;
         else
             return false;
     }
 }
 
-/*This method is used to click on Review button*/
+
+
+    /*This method is used to click on Review button*/
 public boolean clickOnReview()
 {
     boolean flag = false;
     try {
-        flag = driver.findElement(By.xpath(reviewButton)).isDisplayed();
-        driver.findElement(By.xpath(reviewButton)).click();
+        flag = driver.findElement(reviewButton).isDisplayed();
+        driver.findElement(reviewButton).click();
     }
     catch (Exception e){
      flag = true;
@@ -153,25 +154,20 @@ public boolean clickOnReview()
     return flag;
 }
 /*This method is used to navigate to checkout page*/
-public boolean proceedToPay() throws InterruptedException
-{
+public boolean proceedToPay() throws InterruptedException, IOException {
     logger.debug("Scrolling down....");
     scrollDown(0.80f);
-    driver.findElement(By.xpath(proceedToPay)).click();
+
+    wait.until(ExpectedConditions.elementToBeClickable(proceedToPay));
+    driver.findElement(proceedToPay).click();
     Thread.sleep(4000);
 
-    Set contextNames = driver.getContextHandles();
-    Iterator<String> itr=contextNames.iterator();
-
-    while(itr.hasNext()){
-        System.out.println(itr.next());
-        if(itr.next().equalsIgnoreCase("WEBVIEW"))
-        {
-            logger.debug("Switching to webview");
-            driver.context(itr.next());
-        }
+    Set<String> allContext = driver.getContextHandles();
+    for (String context : allContext) {
+        if (context.contains("WEBVIEW"))
+            driver.context(context);
     }
-    String paymentmode = driver.findElement(By.xpath(paymenentModeButton)).getText();
+    String paymentmode = driver.findElement(paymenentModeButton).getText();
     if(paymentmode.contains("payment")) {
         logger.debug("Navigated to payment page successfully");
         return true;

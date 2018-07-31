@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="example suite 1" verbose="1" >
-    <test name="Regression suite 1" >
+<suite name="eBaySuite" verbose="1" >
+    <test name="Androidsuite" >
         <classes>
             <class name="TestCases.EndToEnd"/>
         </classes>

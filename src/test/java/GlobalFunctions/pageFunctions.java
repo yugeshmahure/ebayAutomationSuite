@@ -211,7 +211,7 @@ public String getScreenshot() throws IOException, InterruptedException {
     timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
     screenShotName = new File("./src/Screenshot_"+timeStamp+".png");
     FileUtils.copyFile(scrFile, screenShotName);
-    String filePath = "D:\\eBayAutomationSuite\\src\\Screenshot_"+timeStamp+".png";
+    String filePath = "Screenshot_"+timeStamp+".png";
     return filePath;
   }
 }

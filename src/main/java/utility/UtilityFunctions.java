@@ -27,7 +27,7 @@ public DesiredCapabilities setCapabilities()
 
     capabilities.setCapability("VERSION", prop.getProperty("VERSION"));
     capabilities.setCapability("deviceName", prop.getProperty("deviceName"));
-    capabilities.setCapability("platformName", prop.getProperty("platformName"));
+    //capabilities.setCapability("platformName", prop.getProperty("platformName"));
     //capabilities.setCapability("app","C:\\Users\\Yugesh.Mahure\\Desktop\\WhatsApp.apk");
     capabilities.setCapability("noReset", prop.getProperty("noReset"));
     capabilities.setCapability("appPackage", prop.getProperty("appPackage"));
